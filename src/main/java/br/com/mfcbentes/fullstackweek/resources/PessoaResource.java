@@ -3,6 +3,7 @@ package br.com.mfcbentes.fullstackweek.resources;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import br.com.mfcbentes.fullstackweek.repository.PessoaRepository;
 
 @RestController
 @RequestMapping("/pessoas")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class PessoaResource {
 	
 	@Autowired
@@ -28,7 +30,10 @@ public class PessoaResource {
 	
 	@PostMapping
 	public Pessoa cadastrarPessoa(@RequestBody Pessoa pessoa) {
-		return pessoaRepository.save(pessoa);
+		Pessoa pessoaCadastrada = pessoaRepository.save(pessoa);
+		pessoaCadastrada.setIsVacinada(false);
+		return pessoaRepository.save(pessoaCadastrada);
+		
 	}
 	
 	@PutMapping("/{codigo}")
